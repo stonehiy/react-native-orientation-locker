@@ -40,8 +40,8 @@ import javax.annotation.Nullable;
 
 public class OrientationModule extends ReactContextBaseJavaModule implements OrientationListeners {
 
-    final BroadcastReceiver mReceiver;
-    final OrientationEventListener mOrientationListener;
+    BroadcastReceiver mReceiver;
+    OrientationEventListener mOrientationListener;
     final ReactApplicationContext ctx;
     private boolean isLocked = false;
     private boolean isConfigurationChangeReceiverRegistered = false;
@@ -363,6 +363,9 @@ public class OrientationModule extends ReactContextBaseJavaModule implements Ori
     @Override
     public void start() {
         FLog.i(ReactConstants.TAG, "orientation detect enabled.");
+         if(null==mOrientationListener||null==mReceiver){
+            return;
+        }
         mOrientationListener.enable();
         compatRegisterReceiver(ctx, mReceiver, new IntentFilter("onConfigurationChanged"), false);
         isConfigurationChangeReceiverRegistered = true;
@@ -371,6 +374,9 @@ public class OrientationModule extends ReactContextBaseJavaModule implements Ori
     @Override
     public void stop() {
         FLog.d(ReactConstants.TAG, "orientation detect disabled.");
+         if(null==mOrientationListener||null==mReceiver){
+            return;
+        }
         mOrientationListener.disable();
         try {
             if (isConfigurationChangeReceiverRegistered) {
@@ -385,6 +391,9 @@ public class OrientationModule extends ReactContextBaseJavaModule implements Ori
     @Override
     public void release() {
         FLog.d(ReactConstants.TAG, "orientation detect disabled.");
+         if(null==mOrientationListener||null==mReceiver){
+            return;
+        }
         mOrientationListener.disable();
 
         final Activity activity = getCurrentActivity();
