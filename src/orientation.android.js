@@ -35,6 +35,11 @@ export default class Orientation {
     // ios only
   };
 
+  static initOrientationModule = () => {
+      // Android only
+    OrientationNative.() 
+  }
+
   static getOrientation = (cb) => {
     OrientationNative.getOrientation((orientation) => {
       cb(orientation);
