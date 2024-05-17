@@ -52,7 +52,38 @@ public class OrientationModule extends ReactContextBaseJavaModule implements Ori
         super(reactContext);
         ctx = reactContext;
 
-        mOrientationListener = new OrientationEventListener(reactContext, SensorManager.SENSOR_DELAY_UI) {
+        
+    }
+
+    @Override
+    public String getName() {
+        return "Orientation";
+    }
+
+    private String getCurrentOrientation() {
+
+        final Display display = ((WindowManager) getReactApplicationContext().getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
+
+        switch (display.getRotation()) {
+            case Surface.ROTATION_0:
+                return "PORTRAIT";
+            case Surface.ROTATION_90:
+                return "LANDSCAPE-LEFT";
+            case Surface.ROTATION_180:
+                return "PORTRAIT-UPSIDEDOWN";
+            case Surface.ROTATION_270:
+                return "LANDSCAPE-RIGHT";
+        }
+        return "UNKNOWN";
+    }
+
+    
+    @ReactMethod
+    public void initOrientationModule() {
+        // String orientation = getCurrentOrientation();
+        // callback.invoke(orientation);
+        
+        mOrientationListener = new OrientationEventListener(ctx, SensorManager.SENSOR_DELAY_UI) {
 
             @Override
             public void onOrientationChanged(int orientation) {
@@ -134,28 +165,6 @@ public class OrientationModule extends ReactContextBaseJavaModule implements Ori
             }
         };
         OrientationActivityLifecycle.getInstance().registerListeners(this);
-    }
-
-    @Override
-    public String getName() {
-        return "Orientation";
-    }
-
-    private String getCurrentOrientation() {
-
-        final Display display = ((WindowManager) getReactApplicationContext().getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
-
-        switch (display.getRotation()) {
-            case Surface.ROTATION_0:
-                return "PORTRAIT";
-            case Surface.ROTATION_90:
-                return "LANDSCAPE-LEFT";
-            case Surface.ROTATION_180:
-                return "PORTRAIT-UPSIDEDOWN";
-            case Surface.ROTATION_270:
-                return "LANDSCAPE-RIGHT";
-        }
-        return "UNKNOWN";
     }
 
     @ReactMethod
