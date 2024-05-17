@@ -37,7 +37,7 @@ export default class Orientation {
 
   static initOrientationModule = () => {
       // Android only
-    OrientationNative.() 
+    OrientationNative.initOrientationModule() 
   }
 
   static getOrientation = (cb) => {
