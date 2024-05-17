@@ -11,6 +11,9 @@
 export default class Orientation {
   static configure = options => {}
 
+  static initOrientationModule = () => {}
+  
+
   static getOrientation = cb => {
     cb("UNKNOWN");
   };
